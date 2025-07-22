@@ -13,19 +13,18 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script>
     let tokenClient;
-    let accessToken = null;
 
     window.onload = function () {
+      console.log("Window loaded, initializing token client...");
       tokenClient = google.accounts.oauth2.initTokenClient({
         client_id: "796508457322-8a43tdrrim6pcee4fsl2o421gggm4h4e.apps.googleusercontent.com", // Replace with your client ID
         scope: "https://www.googleapis.com/auth/drive.file",
         callback: (response) => {
+          console.log("OAuth Response:", response);
           if (response && response.access_token) {
-            accessToken = response.access_token;
             document.getElementById("status").innerText =
-              "Access Token: " + accessToken;
-            console.log("Access Token:", accessToken);
-            alert("Access token copied to console!");
+              "Access Token: " + response.access_token;
+            console.log("Access Token:", response.access_token);
           } else {
             document.getElementById("status").innerText =
               "Failed to get access token.";
@@ -33,10 +32,12 @@
         },
       });
 
-      document
-        .getElementById("loginBtn")
-        .addEventListener("click", () => tokenClient.requestAccessToken());
+      document.getElementById("loginBtn").onclick = () => {
+        console.log("Login button clicked!");
+        tokenClient.requestAccessToken();
+      };
     };
   </script>
 </body>
 </html>
+
