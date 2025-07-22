@@ -1,222 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Conflict of Interest Disclosure Form</title>
-    <style>
-        body {
-            margin: 20px auto;
-            max-width: 800px;
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            border: 1px solid #020006;
-            border-radius: 10px;
-            background-color: #ffffff;
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #020006;
-            margin-bottom: 20px;
-        }
-        .header-title {
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .header-logo img {
-            height: 40px;
-            object-fit: contain;
-        }
-        .followup-section {
-            display: none;
-            margin-left: 10px;
-            padding: 10px;
-            background-color: #ffffff;
-        }
-        .question-block {
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: #ffffff;
-            border: 1px solid #020006;
-            border-radius: 5px;
-        }
-        .required-star::after {
-        content: " *";
-        color: red;
-        }
-        
-    </style>
-    <script>
-        function toggleFollowups(index, value) {
-            const section = document.getElementById('followups-' + index);
-            section.style.display = (value === 'Yes') ? 'block' : 'none';
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const form = document.querySelector('form');
-
-            form.querySelectorAll('input[type="radio"]').forEach(function (radio) {
-                radio.addEventListener('click', function () {
-                    const name = this.name;
-                    const radios = form.querySelectorAll(`input[type="radio"][name="${name}"]`);
-                    radios.forEach(r => r.checked = false);
-                    this.checked = true;
-                });
-            });
-
-            form.addEventListener('submit', function (e) {
-                let valid = true;
-                const inputs = form.querySelectorAll('input[required], textarea[required]');
-                inputs.forEach(function (input) {
-                    if (input.type === 'radio') {
-                        const radios = form.querySelectorAll(`input[name="${input.name}"]`);
-                        const oneChecked = Array.from(radios).some(r => r.checked);
-                        if (!oneChecked) valid = false;
-                    } else {
-                        if (!input.value.trim()) valid = false;
-                    }
-                });
-
-                if (!valid) {
-                    e.preventDefault();
-                    alert("Please fill all required fields before submitting the form.");
-                }
-            });
+  <meta name="google-signin-client_id" content="796508457322-8a43tdrrim6pcee4fsl2o421gggm4h4e.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script>
+    function startGoogleLogin() {
+      gapi.load('client:auth2', function() {
+        gapi.client.init({
+          clientId: '796508457322-8a43tdrrim6pcee4fsl2o421gggm4h4e.apps.googleusercontent.com',
+          scope: 'https://www.googleapis.com/auth/drive.file'
+        }).then(function() {
+          const authInstance = gapi.auth2.getAuthInstance();
+          authInstance.signIn().then(function() {
+            const token = gapi.auth.getToken().access_token;
+            alert('Access Token: ' + token); // This should show your token
+          }).catch(function(err) {
+            console.error('Sign-in error:', err);
+          });
+        }).catch(function(err) {
+          console.error('Init error:', err);
         });
-    </script>
+      });
+    }
+  </script>
 </head>
 <body>
-    <div class="header">
-        <div class="header-title">Conflict of Interest Disclosure Form</div>
-        <div class="header-logo">
-<input type="hidden" name="retURL" value="https://rsbahrela.github.io/conflict-form/success.html">
-        </div>
-    </div>
-
-<form action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00DWd000002VvsS" method="POST">
-
-<input type=hidden name="oid" value="00DWd000002VvsS">
-<input type=hidden name="retURL" value="https://rsbahrela.github.io/conflict-form/success.html">
-    
-        <!-- Lead Standard Fields -->
-        <div class="question-block">
-            <label for="first_name">First Name</label><br>
-            <input type="text" id="first_name" name="first_name" required style="width:100%;"><br><br>
-            <label for="last_name">Last Name</label><br>
-            <input type="text" id="last_name" name="last_name" required style="width:100%;"><br><br>
-            <label for="email">Email</label><br>
-            <input type="email" id="email" name="email" required style="width:100%;"><br><br>
-            <label for="phone">Phone</label><br>
-            <input type="tel" id="phone" name="phone" required style="width:100%;"><br><br>
-        </div>
-
-        <!-- QUESTION BLOCKS START -->
-
-<!-- Outside Activities -->
-<div class="question-block">
-  <label style="font-weight: bold; font-size: 18px; display: block; margin-bottom: 5px;">Outside Activities</label>
-    <label>Are you a director, officer, partner, employee, contractor, board member or agent of any entity that conducts business with and/or competes with our organization?</strong></label><br><br>
-    <input type="radio" name="ExternalAffiliationConflict__c" value="Yes" onchange="toggleFollowups(0, 'Yes')" required> Yes
-    <input type="radio" name="ExternalAffiliationConflict__c" value="No" onchange="toggleFollowups(0, 'No')"> No
-    <div class="followup-section" id="followups-0">
-        <label>What is the name of the organization?</strong></label><br>
-        <textarea name="q0_1" required></textarea><br><br>
-        <label>What is the nature or industry of the organization?</strong></label><br>
-        <textarea name="q0_2" required></textarea><br><br>
-        <label>Is the organization a non-profit? (YES/NO)</label><br>
-        <textarea name="q0_3" required></textarea><br><br>
-        <label>How is the organization related to our organization?</strong></label><br>
-        <textarea name="q0_4" required></textarea><br><br>
-        <label>What is your relationship to that organization? (specific role and/or title)</label><br>
-        <textarea name="q0_5" required></textarea><br><br>
-        <label>Please describe what you are doing in your role and how/if it overlaps with our organization:</label><br>
-        <textarea name="q0_6" required></textarea><br><br>
-        <label>Are you receiving or will you receive compensation?</strong></label><br>
-        <textarea name="q0_7" required></textarea><br><br>
-        <label>Please provide any additional comments:</label><br>
-        <textarea name="q0_8" required></textarea><br><br>
-    </div>
-</div>
-
-<!-- Intellectual Property -->
-<div class="question-block">
-  <label style="font-weight: bold; font-size: 18px; display: block; margin-bottom: 5px;">Intellectual Property</label><br>
-    <label>Do you own or plan to own intellectual property?</strong></label><br>
-    <input type="radio" name="OwnsIntellectualProperty__c" value="Yes" onchange="toggleFollowups(1, 'Yes')" required> Yes
-    <input type="radio" name="OwnsIntellectualProperty__c" value="No" onchange="toggleFollowups(1, 'No')"> No
-    <div class="followup-section" id="followups-1">
-        <label>What are you calling your existing or potential claim or interest?</strong></label><br>
-        <textarea name="q1_1" required></textarea><br><br>
-        <label>Please provide a brief description of your claim or interest:</label><br>
-        <textarea name="q1_2" required></textarea><br><br>
-        <label>Do you currently own this intellectual property? (YES/NO)</label><br>
-        <textarea name="q1_3" required></textarea><br><br>
-        <label>Please describe the steps taken to legally protect your claim or interest:</label><br>
-        <textarea name="q1_4" required></textarea><br><br>
-        <label>Does your existing or potential intellectual property relate to your organization or your organization business?</strong></label><br>
-        <textarea name="q1_5" required></textarea><br><br>
-        <label>Please provide any additional comments:</label><br>
-        <textarea name="q1_6" required></textarea><br><br>
-    </div>
-</div>
-
-<!-- Additional question blocks like Financial Interest, Outside Employment, Family Relations, Gifts, etc. can be reinserted similarly here -->
-
-<!-- Financial Interest -->
-<div class="question-block">
-  <label style="font-weight: bold; font-size: 18px; display: block; margin-bottom: 5px;">Financial Interest</label><br>
-  <label>Do you have a financial interest with any entity that conducts business, competes, and/or could be perceived as conflicting with our organization?</strong></label><br>
-  <input type="radio" name="FinancialInterestConflict__c" value="Yes" onchange="toggleFollowups(2, 'Yes')" required> Yes
-  <input type="radio" name="FinancialInterestConflict__c" value="No" onchange="toggleFollowups(2, 'No')"> No
-  <div class="followup-section" id="followups-2">
-    <label>What is the name of the organization in which you have financial interest?</strong></label><br>
-    <textarea name="q2_1" required></textarea><br><br>
-    <label>How is the organization related to our organization?</strong></label><br>
-    <textarea name="q2_2" required></textarea><br><br>
-    <label>Do you have direct financial interest in the organization?</strong></label><br>
-    <textarea name="q2_3" required></textarea><br><br>
-    <label>Do you have indirect financial interest in the organization?</strong></label><br>
-    <textarea name="q2_4" required></textarea><br><br>
-    <label>Please provide any additional comments:</label><br>
-    <textarea name="q2_5" required></textarea><br><br>
-  </div>
-</div>
-
-<!-- Outside Employment -->
-<div class="question-block">
-  <label style="font-weight: bold; font-size: 18px; display: block; margin-bottom: 5px;">Outside Employment or Service</label><br>
-  <label>Do you have a second job, side business, or arrangement to provide outside services which may pose a conflict?</strong></label><br>
-  <input type="radio" name="OutsideEmploymentConflict__c" value="Yes" onchange="toggleFollowups(3, 'Yes')" required> Yes
-  <input type="radio" name="OutsideEmploymentConflict__c" value="No" onchange="toggleFollowups(3, 'No')"> No
-  <div class="followup-section" id="followups-3">
-    <label>What is the name of the organization?</strong></label><br>
-    <textarea name="q3_1" required></textarea><br><br>
-    <label>What is the nature or industry of the organization?</strong></label><br>
-    <textarea name="q3_2" required></textarea><br><br>
-    <label>Is this organization a competitor or business partner? (YES/NO)</label><br>
-    <textarea name="q3_3" required></textarea><br><br>
-    <label>Which description fits best - second job, side business, freelance work, or other?</strong></label><br>
-    <textarea name="q3_4" required></textarea><br><br>
-    <label>Describe your role or services provided:</label><br>
-    <textarea name="q3_5" required></textarea><br><br>
-    <label>Are you receiving or will you receive compensation?</strong></label><br>
-    <textarea name="q3_6" required></textarea><br><br>
-    <label>Time commitment (hours per week)?</strong></label><br>
-    <textarea name="q3_7" required></textarea><br><br>
-    <label>Have you notified anyone in the organization?</strong></label><br>
-    <textarea name="q3_8" required></textarea><br><br>
-    <label>Additional comments:</label><br>
-    <textarea name="q3_9" required></textarea><br><br>
-  </div>
-</div>
-
-<!-- QUESTION BLOCKS END -->
-
-        <br>
-        <input type="submit" value="Submit Form" style="padding: 10px 20px; font-weight: bold;">
-    </form>
+  <button onclick="startGoogleLogin()">Login with Google</button>
 </body>
 </html>
-
-
