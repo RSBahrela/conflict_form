@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Form Submitted</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f6f6f6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+  <meta name="google-signin-client_id" content="796508457322-8a43tdrrim6pcee4fsl2o421gggm4h4e.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script>
+    function startGoogleLogin() {
+      gapi.load('client:auth2', function() {
+        gapi.client.init({
+          clientId: '796508457322-8a43tdrrim6pcee4fsl2o421gggm4h4e.apps.googleusercontent.com',
+          scope: 'https://www.googleapis.com/auth/drive.file'
+        }).then(function() {
+          const authInstance = gapi.auth2.getAuthInstance();
+          authInstance.signIn().then(function() {
+            const token = gapi.auth.getToken().access_token;
+            alert('Access Token: ' + token); // This should show your token
+          }).catch(function(err) {
+            console.error('Sign-in error:', err);
+          });
+        }).catch(function(err) {
+          console.error('Init error:', err);
+        });
+      });
     }
-    .message-box {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    h2 {
-      color: #28a745;
-    }
-  </style>
+  </script>
 </head>
 <body>
-  <div class="message-box">
-    <h2>🎉 Success!</h2>
-    <p>Your details have been successfully submitted.</p>
-  </div>
+  <button onclick="startGoogleLogin()">Login with Google</button>
 </body>
 </html>
